@@ -159,7 +159,7 @@ export default function GameChallengerModal({
                         <span className={`text-[9px] uppercase font-bold tracking-widest ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>Objectif</span>
                         <div className="w-full flex items-center justify-center gap-1.5 mt-0.5">
                           <div className={`h-1.5 flex-1 rounded-full overflow-hidden ${isDark ? 'bg-zinc-800' : 'bg-slate-200'}`}>
-                            <div className="h-full bg-emerald-500 rounded-full" style={{ width: \`\${goalPercentage}%\` }} />
+                            <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${goalPercentage}%` }} />
                           </div>
                           <span className="text-[10px] font-black text-emerald-500">{streakAndGoal.weeklyTotal}/{streakAndGoal.weeklyGoal}</span>
                         </div>
