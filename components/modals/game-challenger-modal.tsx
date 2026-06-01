@@ -201,8 +201,8 @@ export default function GameChallengerModal({
                             }
                             labelStyle={{ color: isDark ? '#a1a1aa' : '#475569', fontWeight: 'bold', marginBottom: '4px' }}
                             formatter={(value: any, name: any) => {
-                              if (name === "daily") return [\`\${value} tâche\${value > 1 ? 's' : ''}\`, "Quotidien"];
-                              return [\`\${value} tâche\${value > 1 ? 's' : ''}\`, "Cumulé (Semaine)"];
+                              if (name === "daily") return [`${value} tâche${value > 1 ? 's' : ''}`, "Quotidien"];
+                              return [`${value} tâche${value > 1 ? 's' : ''}`, "Cumulé (Semaine)"];
                             }}
                           />
                           {/* Daily Curve */}
