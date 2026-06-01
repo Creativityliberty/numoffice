@@ -99,11 +99,15 @@ export default function AppContent() {
       return {
         dateStr: format(d, 'dd/MM'),
         dateObj: d,
-        count: 0
+        count: 0,
+        tasks: [] as Array<{ taskName: string; clientName: string }>
       };
     });
 
-    Object.values(projects).forEach(proj => {
+    Object.entries(projects).forEach(([clientId, proj]) => {
+      const client = clients.find(c => c.id === clientId);
+      const clientName = client?.company || client?.name || "Client Inconnu";
+      
       proj.steps.forEach(step => {
         if (step.isCompleted && step.completedAt) {
           const stepDate = new Date(step.completedAt);
@@ -114,6 +118,7 @@ export default function AppContent() {
               stepDate.getFullYear() === day.dateObj.getFullYear()
             ) {
               day.count += 1;
+              day.tasks.push({ taskName: step.label, clientName });
             }
           });
         }
@@ -121,7 +126,7 @@ export default function AppContent() {
     });
 
     return days;
-  }, [projects]);
+  }, [projects, clients]);
 
   // Cumulative sum of completed tasks for double curves charts
   const taskCompletionsWithCumulative = useMemo(() => {
@@ -139,6 +144,25 @@ export default function AppContent() {
   const completedToday = useMemo(() => {
     const today = taskCompletions7Days[taskCompletions7Days.length - 1];
     return today ? today.count : 0;
+  }, [taskCompletions7Days]);
+
+  // Calculate Streak and Weekly Goal
+  const streakAndGoal = useMemo(() => {
+    let streak = 0;
+    // Iterate from today backwards
+    for (let i = taskCompletions7Days.length - 1; i >= 0; i--) {
+      if (taskCompletions7Days[i].count > 0) {
+        streak++;
+      } else {
+        break; // break the streak if 0 tasks completed on a day
+      }
+    }
+    
+    // Weekly goal progress (sum of all 7 days)
+    const weeklyTotal = taskCompletions7Days.reduce((acc, curr) => acc + curr.count, 0);
+    const weeklyGoal = 20; // Hardcoded goal for now
+    
+    return { streak, weeklyTotal, weeklyGoal };
   }, [taskCompletions7Days]);
 
   // Calculate global summary metrics
@@ -679,6 +703,7 @@ Le Directeur de Production Nümtema`;
         onClose={() => setIsGameChallengerOpen(false)}
         taskCompletions7Days={taskCompletions7Days}
         completedToday={completedToday}
+        streakAndGoal={streakAndGoal}
       />
 
       <BulkRemindersModal 
