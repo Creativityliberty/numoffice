@@ -443,8 +443,8 @@ export function useStore() {
         body: JSON.stringify({
           updateType: 'project',
           data: {
-            quoteAmount: updates.financials?.quoteAmount !== undefined ? updates.financials.quoteAmount : updates.quoteAmount,
-            amountPaid: updates.financials?.amountPaid !== undefined ? updates.financials.amountPaid : updates.amountPaid,
+            quoteAmount: updates.financials?.quoteAmount !== undefined ? updates.financials.quoteAmount : updatedProjectFields.financials.quoteAmount,
+            amountPaid: updates.financials?.amountPaid !== undefined ? updates.financials.amountPaid : updatedProjectFields.financials.amountPaid,
             currentBlocker: updates.currentBlocker,
             notes: updates.notes,
             driveLink: updates.driveLink,
