@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Codenamex",
+  "description": "Desktop-like client project tracking application based on the staircase process.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

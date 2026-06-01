@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id          String    @id @default(uuid())
+  name        String
+  company     String
+  email       String
+  phone       String
+  projectType String    // 'site_vitrine' | 'e_commerce' | 'flyers' | ...
+  offerName   String    // 'presence_essentielle' | 'presence_pro' | 'systeme_client' | ...
+  createdAt   DateTime  @default(now())
+  isArchived  Boolean   @default(false)
+  archivedAt  DateTime?
+  project     Project?
+}
+
+model Project {
+  id             String    @id // Connects 1:1 to Client.id
+  client         Client    @relation(fields: [id], references: [id], onDelete: Cascade)
+  quoteAmount    Float     @default(0.0)
+  amountPaid     Float     @default(0.0)
+  currentBlocker String    @default("none") // Blocker enum representation in string
+  notes          String    @default("") @db.Text
+  driveLink      String    @default("") @db.Text
+  siteLink       String    @default("") @db.Text
+  startDate      DateTime  @default(now())
+  endDate        DateTime
+  completedAt    DateTime?
+  updatedAt      DateTime  @updatedAt
+  steps          Step[]
+}
+
+model Step {
+  id          String    @id @default(uuid())
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  label       String
+  isCompleted Boolean   @default(false)
+  completedAt DateTime?
+}
